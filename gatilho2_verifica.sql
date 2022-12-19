@@ -1,3 +1,7 @@
+.mode columns
+.headers on
+.nullvalue NULL
+
 select * from Partida where numero_jornada >= 4;
 
 insert into Partida values (1,2,2,'2022-11-20','16:00:00',90,"Al-Bayt",4,"Estados Unidos","Equador");

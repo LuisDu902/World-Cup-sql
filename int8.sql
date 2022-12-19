@@ -8,7 +8,6 @@ Drop View If Exists PartidaComSubstituicao;
 Drop View If Exists NumeroPartidas;
 
 ---------------------------------------------------------
-
 Create View PartidaComGolos As
 
 select PARTIDA, NUMERO, NOME, SELECAO
@@ -28,7 +27,6 @@ group by 1,2
 group by 1,2;
 
 ---------------------------------------------------------
-
 Create View PartidaComCartao As
 
 select PARTIDA,NUMERO, NOME, SELECAO
@@ -48,7 +46,6 @@ group by 1,2
 group by 1,2;
 
 ---------------------------------------------------------
-
 Create View PartidaComSubstituicao As
 
 Select p.id_partida PARTIDA, s.numero_jogador_entra NUMERO, j.nome_jogador NOME, s.nome_selecao_entra SELECAO
@@ -62,8 +59,8 @@ Union
 Select p.id_partida PARTIDA, s.numero_jogador_sai NUMERO, j.nome_jogador NOME, s.nome_selecao_sai SELECAO
 From (Substituicao s join Evento e on (s.id_evento = e.id_evento)) Join Partida p on (e.id_partida = p.id_partida) JOIN JOGADOR j ON (j.numero_jogador = s.numero_jogador_sai and j.nome_selecao = s.nome_selecao_sai) 
 Group by 1, 2, 3;
----------------------------------------------------------
 
+---------------------------------------------------------
 Create View NumeroPartidas As
 
 select SELECAO, NR_PARTIDAS_1+NR_PARTIDAS_2 AS NR_PARTIDAS_TOTAL
@@ -81,7 +78,6 @@ group by 1);
 
 
 ---------------------------------------------------------
-
 SELECT SELECAO, NUMERO, NOME
 
 FROM

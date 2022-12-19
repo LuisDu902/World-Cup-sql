@@ -1,2 +1,1 @@
-drop trigger if exists gatilho3;
-drop table if exists Perdedores;
+DROP TRIGGER IF EXISTS gatilho3;

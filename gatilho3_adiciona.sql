@@ -1,4 +1,6 @@
-CREATE TABLE if not exists Perdedores (
+DROP TABLE IF EXISTS Perdedores;
+
+CREATE TABLE Perdedores (
     nome_selecao VARCHAR(50) PRIMARY KEY
 );
 

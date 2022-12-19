@@ -1,3 +1,7 @@
+.mode columns
+.headers on
+.nullvalue NULL
+
 Select * from Jogador where nome_selecao = "Brasil";
 insert into Partida values
 (1,2,2,'2022-11-20','16:00:00',90,"Al-Bayt",1,"Brasil","Equador");
