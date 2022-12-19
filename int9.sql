@@ -1,12 +1,12 @@
-.mode columns
-.headers on
-.nullvalue NULL
-
 /*
 Interrogação 9
 --------------
-Mostrar a média de golos de todas as seleções que não se apuraram para a fase eliminatoria 
+Mostre a média de golos de todas as seleções que não se apuraram para a fase eliminatória.
 */
+
+.mode columns
+.headers on
+.nullvalue NULL
 
 select avg(soma_golos) as MEDIA_GOLOS_SELECOES_ELIMINADAS from 
 (select sum(contagem_pessoal) as soma_golos from 
