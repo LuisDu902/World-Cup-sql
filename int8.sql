@@ -1,11 +1,3 @@
-/*
-Interrogação 8
---------------
-Houve algum jogador que esteve envolvido nalgum evento de todas as partidas que disputou?
-Mostre o nome da seleção, para além do nome e do número do jogador.
-Ordene pelo nome da seleção e número do jogador.
-*/
-
 .mode columns
 .headers on
 .nullvalue NULL
@@ -21,16 +13,16 @@ Create View PartidaComGolos As
 
 select PARTIDA, NUMERO, NOME, SELECAO
 from(
-select id_partida PARTIDA, j.numero_jogador NUMERO, j.nome_jogador NOME, j.nome_selecao SELECAO
+select e.id_partida PARTIDA, j.numero_jogador NUMERO, j.nome_jogador NOME, j.nome_selecao SELECAO
 from Partida p 
     join Jogador j on 
         (p.nome_selecao_1 = j.nome_selecao or  p.nome_selecao_2 = j.nome_selecao)
-    join Golo g on 
+    join (Golo g join Evento e using(id_evento)) on 
         (j.nome_selecao = g.nome_selecao 
         and 
         j.numero_jogador = g.numero_jogador 
         and 
-        g.id_evento/1000 = p.id_partida)
+         e.id_partida = p.id_partida)
 group by 1,2
 )
 group by 1,2;
@@ -41,16 +33,16 @@ Create View PartidaComCartao As
 
 select PARTIDA,NUMERO, NOME, SELECAO
 from(
-select id_partida PARTIDA, j.numero_jogador NUMERO,j.nome_jogador NOME, j.nome_selecao SELECAO
+select e.id_partida PARTIDA, j.numero_jogador NUMERO,j.nome_jogador NOME, j.nome_selecao SELECAO
 from Partida p 
     join Jogador j on 
         (p.nome_selecao_1 = j.nome_selecao or  p.nome_selecao_2 = j.nome_selecao)
-    join Cartao c on 
+    join (Cartao c join Evento e using(id_evento)) on 
         (j.nome_selecao = c.nome_selecao 
         and 
         j.numero_jogador = c.numero_jogador 
         and 
-        c.id_evento/1000 = p.id_partida)
+        e.id_partida = p.id_partida)
 group by 1,2
 )
 group by 1,2;
@@ -59,30 +51,22 @@ group by 1,2;
 
 Create View PartidaComSubstituicao As
 
-select PARTIDA, NUMERO,NOME, SELECAO
-from(
-select id_partida PARTIDA, j.numero_jogador NUMERO,j.nome_jogador NOME, j.nome_selecao SELECAO
-from Partida p 
-    join Jogador j on 
-        (p.nome_selecao_1 = j.nome_selecao or  p.nome_selecao_2 = j.nome_selecao)
-    join Substituicao s on 
-        ((j.nome_selecao = s.nome_selecao_entra
-        and 
-        j.numero_jogador = s.numero_jogador_entra) or
-         (j.nome_selecao = s.nome_selecao_sai
-        and 
-        j.numero_jogador = s.numero_jogador_sai))
-        and 
-        s.id_evento/1000 = p.id_partida
-group by 1,2
-)
-group by 1,2;
+Select p.id_partida PARTIDA, s.numero_jogador_entra NUMERO, j.nome_jogador NOME, s.nome_selecao_entra SELECAO
+From (Substituicao s join Evento e on (s.id_evento = e.id_evento)) 
+    Join Partida p on (e.id_partida = p.id_partida) 
+    JOIN JOGADOR j ON (j.numero_jogador = s.numero_jogador_entra and j.nome_selecao = s.nome_selecao_entra) 
+Group by 1, 2, 3
 
+Union
+
+Select p.id_partida PARTIDA, s.numero_jogador_sai NUMERO, j.nome_jogador NOME, s.nome_selecao_sai SELECAO
+From (Substituicao s join Evento e on (s.id_evento = e.id_evento)) Join Partida p on (e.id_partida = p.id_partida) JOIN JOGADOR j ON (j.numero_jogador = s.numero_jogador_sai and j.nome_selecao = s.nome_selecao_sai) 
+Group by 1, 2, 3;
 ---------------------------------------------------------
 
 Create View NumeroPartidas As
 
-select SELECAO, NR_PARTIDAS_1+NR_PARTIDAS_2 NR_PARTIDAS_TOTAL
+select SELECAO, NR_PARTIDAS_1+NR_PARTIDAS_2 AS NR_PARTIDAS_TOTAL
 from
 
 (select nome_selecao_1 SELECAO, count(*) NR_PARTIDAS_1
