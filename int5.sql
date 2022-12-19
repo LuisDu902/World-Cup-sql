@@ -2,7 +2,7 @@
 Interrogação 5
 --------------
 Liste os jogadores com “r” na terceira ou na antepenúltima posição no nome, que marcaram golos.
-Ordene pelo nome da selecao e nome do jogador
+Ordene pelo nome da seleção e nome do jogador.
 */
 
 .mode columns
