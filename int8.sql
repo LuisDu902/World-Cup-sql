@@ -1,3 +1,11 @@
+/*
+Interrogação 8
+--------------
+Houve algum jogador que esteve envolvido nalgum evento de todas as partidas que disputou?
+Mostre o nome da seleção, para além do nome e do número do jogador.
+Ordene pelo nome da seleção e número do jogador.
+*/
+
 .mode columns
 .headers on
 .nullvalue NULL
@@ -90,7 +98,7 @@ group by 1);
 
 ---------------------------------------------------------
 
-SELECT NUMERO,NOME, SELECAO
+SELECT SELECAO, NUMERO, NOME
 
 FROM
 
