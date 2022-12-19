@@ -998,9 +998,9 @@ INSERT INTO Partida VALUES
 (601,1,0,'2022-12-13','15:00:00',120,"Lusail Iconic",6,"Argentina","Brasil"),
 (602,0,2,'2022-12-14','19:00:00',90,"Al-Bayt",6,"Dinamarca","Portugal"),
 
-(701,3,0,'2022-12-18','15:00:00',90,"Lusail Iconic",7,"Brasil","Dinamarca"),
+(701,3,0,'2022-12-17','15:00:00',90,"Lusail Iconic",7,"Brasil","Dinamarca"),
 
-(801,2,3,'2022-12-18','15:00:00',120,"Lusail Iconic",7,"Argentina","Portugal");
+(801,2,3,'2022-12-18','15:00:00',120,"Lusail Iconic",8,"Argentina","Portugal");
 
 INSERT INTO Evento VALUES
 (101011, 11, 101),
