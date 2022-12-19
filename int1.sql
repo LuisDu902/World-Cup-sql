@@ -30,7 +30,7 @@ Where cor = "vermelha" or (cor = "amarela" and c >= 2))
 
 Group by 1;
 
------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 Create View NumeroGolos As
 
 Select nome_selecao as NOME_SELECAO, numero_jogador as NUM_JOGADOR, count(*) as NUM_GOLOS
