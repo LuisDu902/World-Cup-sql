@@ -1,14 +1,14 @@
-.mode columns
-.headers on
-.nullvalue NULL
-
 /*
 Interrogação 3
 --------------
-Liste os estádios nos quais houve menos que 9 partidas,
-ordenados por número de partidas (N_PARTIDAS) e por capacidade
-caso o número de partidas seja igual
+Liste os estádios nos quais houve menos do que 9 partidas,
+ordenados por número de partidas e por capacidade,
+caso o número de partidas seja igual.
 */
+
+.mode columns
+.headers on
+.nullvalue NULL
 
 select e.nome_estadio as NOME_ESTADIO, count(*) as N_PARTIDAS, capacidade as CAPACIDADE
 from estadio as e join partida as p
