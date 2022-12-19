@@ -1,1 +1,1 @@
-DROP TRIGGER IF EXISTS AtualizaContagemPessoal;
+DROP TRIGGER IF EXISTS gatilho1;
