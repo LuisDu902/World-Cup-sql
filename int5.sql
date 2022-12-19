@@ -1,13 +1,13 @@
-.mode columns
-.headers on
-.nullvalue NULL
-
 /*
 Interrogação 5
 --------------
-Jogadores com “r” na terceira ou na antepenúltima posição no nome que marcaram golos ordenados por selecao, nome 
-(mostrar nome_selecao, numero_jogador, nome_jogador)
+Liste os jogadores com “r” na terceira ou na antepenúltima posição no nome, que marcaram golos.
+Ordene pelo nome da selecao e nome do jogador
 */
+
+.mode columns
+.headers on
+.nullvalue NULL
 
 Select nome_selecao,numero_jogador,nome_jogador
 from Jogador
