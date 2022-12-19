@@ -1,4 +1,4 @@
-CREATE TRIGGER AtualizaContagemPessoal
+CREATE TRIGGER gatilho1
 before insert on Golo
 for each row 
 begin
