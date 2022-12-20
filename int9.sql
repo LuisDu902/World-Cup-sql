@@ -3,7 +3,8 @@ Interrogação 9
 --------------
 Selecione o/s melhor/es marcador/es na fase eliminatória, de cada seleção que não recebeu nenhum vermelho durante toda a competição.
 Mostre o nome da seleção, o número e nome do jogador, para além do número de golos marcados pelo mesmo (excetuando os autogolos).
-Ordene pelo nome da seleção, e número do jogador
+Ordene pelo nome da seleção, e número do jogador.
+Note que dois cartões amarelos atribuídos a um mesmo jogador equivalem a um cartão vermelho.
 */
 
 .mode columns
