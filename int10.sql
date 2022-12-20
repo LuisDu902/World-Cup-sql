@@ -5,59 +5,59 @@ Mostre o nº de jogos ganho por cada seleção, ordenando pelo nome da seleção
 */
 
 .mode columns
-.headers on
+.headers ON
 .nullvalue NULL
-Drop View If Exists Empates;
-Drop View If Exists GolosDefault;
-Drop View If Exists Autogolos;
+DROP VIEW IF EXISTS Empates;
+DROP VIEW IF EXISTS GolosDefault;
+DROP VIEW IF EXISTS Autogolos;
 
 ---------------------------------------------------------
-Create View Empates As
+CREATE VIEW Empates As
 
-Select id_partida as PARTIDA
-From Partida
-Where golos_marcados_selecao1 = golos_marcados_selecao2;
+SELECT id_partida AS PARTIDA
+FROM Partida
+WHERE golos_marcados_selecao1 = golos_marcados_selecao2;
 
 ---------------------------------------------------------
-Create View GolosDefault As
+CREATE VIEW GolosDefault As
 
-Select p.id_partida as partida, g.nome_selecao as selecao, count(g.id_evento) as golos_reais
-From (Golo g join Evento e on (g.id_evento = e.id_evento)) join Partida p on (e.id_partida = p.id_partida)
-Where p.id_partida not in (Select * from Empates)
-        and
-     (p.id_partida, g.nome_selecao) not in
-        (Select p.id_partida, g.nome_selecao
-         From (Golo g join Evento e on (g.id_evento = e.id_evento)) join Partida p on (e.id_partida = p.id_partida)
-         Where g.tipo = "autogolo")
+SELECT p.id_partida AS partida, g.nome_selecao AS selecao, COUNT(g.id_evento) AS golos_reais
+FROM (Golo g JOIN Evento e ON (g.id_evento = e.id_evento)) JOIN Partida p ON (e.id_partida = p.id_partida)
+WHERE p.id_partida NOT IN (SELECT * FROM Empates)
+      AND
+      (p.id_partida, g.nome_selecao) NOT IN
+         (SELECT p.id_partida, g.nome_selecao
+         FROM (Golo g JOIN Evento e ON (g.id_evento = e.id_evento)) JOIN Partida p ON (e.id_partida = p.id_partida)
+         WHERE g.tipo = "autogolo")
          
-Group by p.id_partida, g.nome_selecao;
+GROUP BY p.id_partida, g.nome_selecao;
 
 --------------------------------------------------------------------------------------------------------------------
-Create View Autogolos As
+CREATE VIEW Autogolos As
 
-Select B.partida as partida, B.selecao as selecao, A.total_golos - B.autogolos as golos_reais
-From
-(Select p.id_partida as partida, g.nome_selecao as selecao, count(g.id_evento) as total_golos
-From (Golo g join Evento e on (g.id_evento = e.id_evento)) join Partida p on (e.id_partida = p.id_partida)
-Group by p.id_partida, g.nome_selecao) as A,
+SELECT B.partida AS partida, B.selecao AS selecao, A.total_golos - B.autogolos AS golos_reais
+FROM
+(SELECT p.id_partida AS partida, g.nome_selecao AS selecao, COUNT(g.id_evento) AS total_golos
+FROM (Golo g JOIN Evento e ON (g.id_evento = e.id_evento)) JOIN Partida p ON (e.id_partida = p.id_partida)
+GROUP BY p.id_partida, g.nome_selecao) AS A,
 
-(Select p.id_partida as partida, g.nome_selecao as selecao, count(g.id_evento) as autogolos
-From (Golo g join Evento e on (g.id_evento = e.id_evento)) join Partida p on (e.id_partida = p.id_partida)
-Where g.tipo = "autogolo"
-Group by p.id_partida, g.nome_selecao) as B
+(SELECT p.id_partida AS partida, g.nome_selecao AS selecao, COUNT(g.id_evento) AS autogolos
+FROM (Golo g JOIN Evento e ON (g.id_evento = e.id_evento)) JOIN Partida p ON (e.id_partida = p.id_partida)
+WHERE g.tipo = "autogolo"
+GROUP BY p.id_partida, g.nome_selecao) AS B
 
-Where A.partida = B.partida and A.selecao = B.selecao and A.partida not in (Select * from Empates);
+WHERE A.partida = B.partida AND A.selecao = B.selecao AND A.partida NOT IN (SELECT * FROM Empates);
 
 ---------------------------------------------------------------------------------------------------------------------
-Select selecao as SELECAO, count(*) as VITÓRIAS
+SELECT selecao AS SELECAO, COUNT(*) AS VITÓRIAS
 
-From
-(Select partida, selecao, max(golos_reais)
- From
-    (Select * From GolosDefault
+FROM
+(SELECT partida, selecao, MAX(golos_reais)
+ FROM
+    (SELECT * FROM GolosDefault
      UNION
-     Select * From Autogolos)
- Group by 1)
+     SELECT * FROM Autogolos)
+ GROUP BY 1)
 
-Group by 1
-Order by 1;
+GROUP BY 1
+ORDER BY 1;

@@ -1,47 +1,47 @@
 /*
 Interrogação 3
 --------------
-Liste os jogadores com “r” na terceira ou na antepenúltima posição no nome, que marcaram golos, cuja seleção jogou em estádios onde se disputaram no mínimo 9 partidas.
+Liste os jogadores com “r” na terceira ou na antepenúltima posição no nome, que marcaram golos, cuja seleção jogou em estádios ONde se disputaram no mínimo 9 partidAS.
 Ordene alfabeticamente pelo nome da seleção e decrescentemente pelo número do jogador.
 */
 
 .mode columns
-.headers on
+.headers ON
 .nullvalue NULL
-Drop View if exists Estadios;
-Drop View if exists Jogadores;
-Drop View if exists Selecoes;
+DROP VIEW IF EXISTS Estadios;
+DROP VIEW IF EXISTS Jogadores;
+DROP VIEW IF EXISTS Selecoes;
 
 ---------------------------------------------------------
-Create View Estadios As
+CREATE VIEW Estadios AS
 
-Select e.nome_estadio as NOME_ESTADIO, count(*) as N_PARTIDAS
-From Estadio as e join Partida as p on (e.nome_estadio = p.nome_estadio)
-Group by e.nome_estadio
-Having count(*) >= 9;
-
----------------------------------------------------------
-Create View Jogadores As
-
-Select nome_selecao as SELECAO, numero_jogador as NUM, nome_jogador as NOME
-From Jogador
-Where (nome_jogador like '__r%' or nome_jogador like '%r__')
-and contagem_pessoal <> 0;
+SELECT e.nome_estadio AS NOME_ESTADIO, COUNT(*) AS N_PARTIDAS
+FROM Estadio AS e JOIN Partida AS p ON (e.nome_estadio = p.nome_estadio)
+GROUP BY e.nome_estadio
+HAVING COUNT(*) >= 9;
 
 ---------------------------------------------------------
-Create View Selecoes As
+CREATE VIEW Jogadores AS
 
-Select nome_selecao_1 as SELECAO
-From Partida
-Where nome_estadio in (Select NOME_ESTADIO From Estadios)
-
-Union
-
-Select nome_selecao_2 as SELECAO
-From Partida
-Where nome_estadio in (Select NOME_ESTADIO From Estadios);
+SELECT nome_selecao AS SELECAO, numero_jogador AS NUM, nome_jogador AS NOME
+FROM Jogador
+WHERE (nome_jogador LIKE '__r%' OR nome_jogador LIKE '%r__')
+AND contagem_pessoal <> 0;
 
 ---------------------------------------------------------
-Select * From Jogadores
-Where SELECAO in (Select * from Selecoes)
-Order by 1 ASC, 2 DESC;
+CREATE VIEW Selecoes AS
+
+SELECT nome_selecao_1 AS SELECAO
+FROM Partida
+WHERE nome_estadio IN (SELECT NOME_ESTADIO FROM Estadios)
+
+UNION
+
+SELECT nome_selecao_2 AS SELECAO
+FROM Partida
+WHERE nome_estadio IN (SELECT NOME_ESTADIO FROM Estadios);
+
+---------------------------------------------------------
+SELECT * FROM Jogadores
+WHERE SELECAO IN (SELECT * from Selecoes)
+ORDER BY 1 ASC, 2 DESC;

@@ -6,13 +6,13 @@ Evidencie a quantidade de partidas dos playoffs e a quantidade de partidas que f
 */
 
 .mode columns
-.headers on
+.headers ON
 .nullvalue NULL
 
-select A.partidas_playoffs, B.partidas_desempate,
- B.partidas_desempate*1.0/A.partidas_playoffs * 100 as PERCENTAGEM from 
+SELECT A.partidas_playoffs, B.partidas_desempate,
+ B.partidas_desempate*1.0/A.partidas_playoffs * 100 AS PERCENTAGEM FROM 
 
-(select count(*) as PARTIDAS_PLAYOFFS from partida
-where numero_jornada > 3) as A,
+(SELECT COUNT(*) AS PARTIDAS_PLAYOFFS FROM partida
+WHERE numero_jornada > 3) AS A,
 
-(select count(*) as PARTIDAS_DESEMPATE from Desempate) as B
+(SELECT COUNT(*) AS PARTIDAS_DESEMPATE FROM Desempate) AS B

@@ -5,23 +5,23 @@ CREATE TABLE Perdedores (
 );
 
 CREATE TRIGGER gatilho3
-after insert on Partida
-for each row
-when new.numero_jornada > 3 and new.golos_marcados_selecao1 <> new.golos_marcados_selecao2
+AFTER INSERT ON Partida
+FOR EACH ROW
+WHEN new.numero_jornada > 3 AND new.golos_marcados_selecao1 <> new.golos_marcados_selecao2
 
-begin 
-insert into Perdedores Select NOME
+BEGIN 
+INSERT INTO Perdedores SELECT NOME
 
-From
-(Select NOME, min(GOLOS) from (
+FROM
+(SELECT NOME, MIN(GOLOS) FROM (
 
-Select p.nome_selecao_1 as NOME, p.golos_marcados_selecao1 as GOLOS
-From Partida as p
-Where new.id_partida = p.id_partida
+SELECT p.nome_selecao_1 AS NOME, p.golos_marcados_selecao1 AS GOLOS
+FROM Partida AS p
+WHERE new.id_partida = p.id_partida
 
-Union
+UNION
 
-Select p.nome_selecao_2 as NOME, p.golos_marcados_selecao2 as GOLOS
-From Partida as p
-Where new.id_partida = p.id_partida));
-end;
+SELECT p.nome_selecao_2 AS NOME, p.golos_marcados_selecao2 AS GOLOS
+FROM Partida AS p
+WHERE new.id_partida = p.id_partida));
+END;

@@ -6,17 +6,14 @@ Mostre o nome da seleção e o número respetivo de vitórias em toda a competi�
 */
 
 .mode columns
-.headers on
+.headers ON
 .nullvalue NULL
 
-Select g.nome_selecao as PODIO
-
-From (Golo g join Evento e on (g.id_evento = e.id_evento)) join Partida p on (e.id_partida = p.id_partida)
-
-Where p.id_partida in (Select p.id_partida
-                       From Partida p join Jornada j on (p.numero_jornada = j.numero_jornada)
-                       Where j.nome_fase = "final" or j.nome_fase = "jogo para o 3º lugar")
-
-Group by g.nome_selecao
-Order by p.data DESC, count(g.id_evento) DESC
-Limit 3;
+SELECT g.nome_selecao AS PODIO
+FROM (Golo g JOIN Evento e ON (g.id_evento = e.id_evento)) JOIN Partida p ON (e.id_partida = p.id_partida)
+WHERE p.id_partida IN (SELECT p.id_partida
+                       FROM Partida p JOIN Jornada j ON (p.numero_jornada = j.numero_jornada)
+                       WHERE j.nome_fase = "final" OR j.nome_fase = "jogo para o 3º lugar")
+GROUP BY g.nome_selecao
+ORDER BY p.data DESC, COUNT(g.id_evento) DESC
+LIMIT 3;

@@ -6,23 +6,23 @@ Mostre o nome da seleção, o número total de cartões, o número de jogadores 
 */
 
 .mode columns
-.headers on
+.headers ON
 .nullvalue NULL
 
-Select A.nome_selecao as NOME_SELECAO, NUM_CARTOES, NUM_JOGADORES, round(NUM_CARTOES*1.0/NUM_JOGADORES, 3) as MEDIA
-From 
+SELECT A.nome_selecao AS NOME_SELECAO, NUM_CARTOES, NUM_JOGADORES, ROUND(NUM_CARTOES*1.0/NUM_JOGADORES, 3) AS MEDIA
+FROM 
 
-(Select nome_selecao, max(total_subs)
- From (Select nome_selecao_entra as nome_selecao, count(*) as total_subs
-      From Substituicao
-      Group by nome_selecao_entra)) as A, 
+(SELECT nome_selecao, MAX(total_subs)
+ FROM (SELECT nome_selecao_entra AS nome_selecao, COUNT(*) AS total_subs
+      FROM Substituicao
+      GROUP BY nome_selecao_entra)) AS A, 
 
-(Select nome_selecao, count(*) as NUM_CARTOES
- From Cartao
- Group by nome_selecao) as B, 
+(SELECT nome_selecao, COUNT(*) AS NUM_CARTOES
+ FROM Cartao
+ GROUP BY nome_selecao) AS B, 
 
-(Select nome_selecao, count(*) as NUM_JOGADORES
- From Jogador
- Group by nome_selecao) as C
+(SELECT nome_selecao, COUNT(*) AS NUM_JOGADORES
+ FROM Jogador
+ GROUP BY nome_selecao) AS C
 
-Where A.nome_selecao = B.nome_selecao and A.nome_selecao = C.nome_selecao;
+WHERE A.nome_selecao = B.nome_selecao AND A.nome_selecao = C.nome_selecao;

@@ -7,48 +7,48 @@ Ordene pelo nome da seleção, e número do jogador
 */
 
 .mode columns
-.headers on
+.headers ON
 .nullvalue NULL
-Drop View If Exists SelecoesSemVermelhos;
-Drop View If Exists MelhoresMarcadores;
-Drop View If Exists NumeroGolos;
+DROP VIEW IF EXISTS SelecoesSemVermelhos;
+DROP VIEW IF EXISTS MelhoresMarcadores;
+DROP VIEW IF EXISTS NumeroGolos;
 
 ---------------------------------------------------------
-Create View SelecoesSemVermelhos As
+CREATE VIEW SelecoesSemVermelhos AS
 
-Select nome_selecao as NOME_SELECAO
-From Selecao
-Where nome_selecao not in
+SELECT nome_selecao AS NOME_SELECAO
+FROM Selecao
+WHERE nome_selecao NOT IN
 
-(Select Distinct NOME
-From
-(Select nome_selecao as NOME, numero_jogador as NUM,  cor, count(*) as c
-From Cartao
-Group by nome_selecao, numero_jogador, cor)
+(SELECT DISTINCT NOME
+FROM
+(SELECT nome_selecao AS NOME, numero_jogador AS NUM,  cor, COUNT(*) AS c
+FROM Cartao
+GROUP BY nome_selecao, numero_jogador, cor)
 
-Where cor = "vermelha" or (cor = "amarela" and c >= 2))
+WHERE cor = "vermelha" OR (cor = "amarela" AND c >= 2))
 
-Group by 1;
-
----------------------------------------------------------
-Create View NumeroGolos As
-
-Select nome_selecao as NOME_SELECAO, numero_jogador as NUM_JOGADOR, count(*) as NUM_GOLOS
-From (Golo g Join Evento e on (g.id_evento = e.id_evento)) Join Partida p on (e.id_partida = p.id_partida)
-Where p.numero_jornada > 3 and g.tipo <> "autogolo"
-Group by nome_selecao, numero_jogador;
+GROUP BY 1;
 
 ---------------------------------------------------------
-Create View MelhoresMarcadores As
+CREATE VIEW NumeroGolos AS
 
-Select Distinct A.NOME_SELECAO, A.NUM_JOGADOR, A.NUM_GOLOS
-From (Select * From NumeroGolos) A
-Where not exists (Select * From NumeroGolos B Where A.NOME_SELECAO = B.NOME_SELECAO and B.NUM_GOLOS > A.NUM_GOLOS);
+SELECT nome_selecao AS NOME_SELECAO, numero_jogador AS NUM_JOGADOR, COUNT(*) AS NUM_GOLOS
+FROM (Golo g JOIN Evento e ON (g.id_evento = e.id_evento)) JOIN Partida p ON (e.id_partida = p.id_partida)
+WHERE p.numero_jornada > 3 AND g.tipo <> "autogolo"
+GROUP BY nome_selecao, numero_jogador;
 
 ---------------------------------------------------------
-Select C.NOME_SELECAO, C.NUM_JOGADOR, nome_jogador as NOME_JOGADOR, C.NUM_GOLOS
-From
-(Select * From (Select * From SelecoesSemVermelhos) join (Select * From MelhoresMarcadores) using(NOME_SELECAO)) as C
-Join
-Jogador j on (j.numero_jogador = C.NUM_JOGADOR and j.nome_selecao = C.NOME_SELECAO)
-Order by 1, 2;
+CREATE VIEW MelhoresMarcadores AS
+
+SELECT DISTINCT A.NOME_SELECAO, A.NUM_JOGADOR, A.NUM_GOLOS
+FROM (SELECT * FROM NumeroGolos) A
+WHERE NOT EXISTS (SELECT * FROM NumeroGolos B WHERE A.NOME_SELECAO = B.NOME_SELECAO AND B.NUM_GOLOS > A.NUM_GOLOS);
+
+---------------------------------------------------------
+SELECT C.NOME_SELECAO, C.NUM_JOGADOR, nome_jogador AS NOME_JOGADOR, C.NUM_GOLOS
+FROM
+(SELECT * FROM (SELECT * FROM SelecoesSemVermelhos) JOIN (SELECT * FROM MelhoresMarcadores) USING(NOME_SELECAO)) AS C
+JOIN
+Jogador j ON (j.numero_jogador = C.NUM_JOGADOR AND j.nome_selecao = C.NOME_SELECAO)
+ORDER BY 1, 2;

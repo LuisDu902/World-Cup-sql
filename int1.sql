@@ -5,17 +5,18 @@ Mostre a média de golos de todas as seleções que não se apuraram para a fase
 */
 
 .mode columns
-.headers on
+.headers ON
 .nullvalue NULL
 
-select avg(soma_golos) as MEDIA_GOLOS_SELECOES_ELIMINADAS from 
-(select sum(contagem_pessoal) as soma_golos from 
-(select * from Selecao where 
-nome_selecao not in (select nome_selecao_1 from Partida where numero_jornada = 4)
-and 
-nome_selecao not in (select nome_selecao_2 from Partida where numero_jornada = 4)) as Selecoes_elim
-join Jogador on Selecoes_elim.nome_selecao = Jogador.nome_selecao
-group by Jogador.nome_selecao)
+SELECT AVG(soma_golos) AS MEDIA_GOLOS_SELECOES_ELIMINADAS 
+FROM (SELECT SUM(contagem_pessoal) AS soma_golos 
+    FROM (SELECT * 
+        FROM Selecao 
+        WHERE nome_selecao NOT IN (SELECT nome_selecao_1 FROM Partida WHERE numero_jornada = 4) 
+        AND 
+        nome_selecao NOT IN (SELECT nome_selecao_2 FROM Partida WHERE numero_jornada = 4)) AS Selecoes_elim
+    JOIN Jogador ON Selecoes_elim.nome_selecao = Jogador.nome_selecao
+    GROUP BY Jogador.nome_selecao)
 
 
 

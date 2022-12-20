@@ -1,80 +1,80 @@
 .mode columns
-.headers on
+.headers ON
 .nullvalue NULL
 
-Drop View If Exists PartidaComGolos;
-Drop View If Exists PartidaComCartao;
-Drop View If Exists PartidaComSubstituicao;
-Drop View If Exists NumeroPartidas;
+DROP VIEW IF EXISTS PartidaComGolos;
+DROP VIEW IF EXISTS PartidaComCartao;
+DROP VIEW IF EXISTS PartidaComSubstituicao;
+DROP VIEW IF EXISTS NumeroPartidas;
 
 ---------------------------------------------------------
-Create View PartidaComGolos As
+CREATE VIEW PartidaComGolos AS
 
-select PARTIDA, NUMERO, NOME, SELECAO
-from(
-select e.id_partida PARTIDA, j.numero_jogador NUMERO, j.nome_jogador NOME, j.nome_selecao SELECAO
-from Partida p 
-    join Jogador j on 
-        (p.nome_selecao_1 = j.nome_selecao or  p.nome_selecao_2 = j.nome_selecao)
-    join (Golo g join Evento e using(id_evento)) on 
+SELECT PARTIDA, NUMERO, NOME, SELECAO
+FROM(
+SELECT e.id_partida AS PARTIDA, j.numero_jogador AS NUMERO, j.nome_jogador AS NOME, j.nome_selecao AS SELECAO
+FROM Partida p 
+    JOIN Jogador j ON
+        (p.nome_selecao_1 = j.nome_selecao OR p.nome_selecao_2 = j.nome_selecao)
+    JOIN (Golo g JOIN Evento e USING(id_evento)) ON
         (j.nome_selecao = g.nome_selecao 
-        and 
+        AND 
         j.numero_jogador = g.numero_jogador 
-        and 
+        AND 
          e.id_partida = p.id_partida)
-group by 1,2
+GROUP BY 1,2
 )
-group by 1,2;
+GROUP BY 1,2;
 
 ---------------------------------------------------------
-Create View PartidaComCartao As
+CREATE VIEW PartidaComCartao AS
 
-select PARTIDA,NUMERO, NOME, SELECAO
-from(
-select e.id_partida PARTIDA, j.numero_jogador NUMERO,j.nome_jogador NOME, j.nome_selecao SELECAO
-from Partida p 
-    join Jogador j on 
-        (p.nome_selecao_1 = j.nome_selecao or  p.nome_selecao_2 = j.nome_selecao)
-    join (Cartao c join Evento e using(id_evento)) on 
+SELECT PARTIDA,NUMERO, NOME, SELECAO
+FROM(
+SELECT e.id_partida AS PARTIDA, j.numero_jogador AS NUMERO, j.nome_jogador AS NOME, j.nome_selecao AS SELECAO
+FROM Partida p 
+    JOIN Jogador j ON 
+        (p.nome_selecao_1 = j.nome_selecao OR p.nome_selecao_2 = j.nome_selecao)
+    JOIN (Cartao c JOIN Evento e USING(id_evento)) ON 
         (j.nome_selecao = c.nome_selecao 
-        and 
+        AND 
         j.numero_jogador = c.numero_jogador 
-        and 
+        AND 
         e.id_partida = p.id_partida)
-group by 1,2
+GROUP BY 1,2
 )
-group by 1,2;
+GROUP BY 1,2;
 
 ---------------------------------------------------------
-Create View PartidaComSubstituicao As
+CREATE VIEW PartidaComSubstituicao AS
 
-Select p.id_partida PARTIDA, s.numero_jogador_entra NUMERO, j.nome_jogador NOME, s.nome_selecao_entra SELECAO
-From (Substituicao s join Evento e on (s.id_evento = e.id_evento)) 
-    Join Partida p on (e.id_partida = p.id_partida) 
-    JOIN JOGADOR j ON (j.numero_jogador = s.numero_jogador_entra and j.nome_selecao = s.nome_selecao_entra) 
-Group by 1, 2, 3
+SELECT p.id_partida AS PARTIDA, s.numero_jogador_entra AS NUMERO, j.nome_jogador AS NOME, s.nome_selecao_entra AS SELECAO
+FROM (Substituicao s JOIN Evento e ON (s.id_evento = e.id_evento)) 
+    JOIN Partida p ON (e.id_partida = p.id_partida) 
+    JOIN JOGADOR j ON (j.numero_jogador = s.numero_jogador_entra AND j.nome_selecao = s.nome_selecao_entra) 
+GROUP BY 1, 2, 3
 
-Union
+UNION
 
-Select p.id_partida PARTIDA, s.numero_jogador_sai NUMERO, j.nome_jogador NOME, s.nome_selecao_sai SELECAO
-From (Substituicao s join Evento e on (s.id_evento = e.id_evento)) Join Partida p on (e.id_partida = p.id_partida) JOIN JOGADOR j ON (j.numero_jogador = s.numero_jogador_sai and j.nome_selecao = s.nome_selecao_sai) 
-Group by 1, 2, 3;
+SELECT p.id_partida PARTIDA, s.numero_jogador_sai NUMERO, j.nome_jogador NOME, s.nome_selecao_sai SELECAO
+FROM (Substituicao s JOIN Evento e ON (s.id_evento = e.id_evento)) JOIN Partida p ON (e.id_partida = p.id_partida) JOIN JOGADOR j ON (j.numero_jogador = s.numero_jogador_sai AND j.nome_selecao = s.nome_selecao_sai) 
+GROUP BY 1, 2, 3;
 
 ---------------------------------------------------------
-Create View NumeroPartidas As
+CREATE VIEW NumeroPartidas AS
 
-select SELECAO, NR_PARTIDAS_1+NR_PARTIDAS_2 AS NR_PARTIDAS_TOTAL
-from
+SELECT SELECAO, NR_PARTIDAS_1+NR_PARTIDAS_2 AS NR_PARTIDAS_TOTAL
+FROM
 
-(select nome_selecao_1 SELECAO, count(*) NR_PARTIDAS_1
-from Partida
-group by 1)
+(SELECT nome_selecao_1 SELECAO, COUNT(*) NR_PARTIDAS_1
+FROM Partida
+GROUP BY 1)
 
 NATURAL JOIN 
 
-(select nome_selecao_2 SELECAO, count(*) NR_PARTIDAS_2
-from Partida
-group by 1);
+(SELECT nome_selecao_2 SELECAO, COUNT(*) NR_PARTIDAS_2
+FROM Partida
+GROUP BY 1);
 
 
 ---------------------------------------------------------
@@ -82,15 +82,15 @@ SELECT SELECAO, NUMERO, NOME
 
 FROM
 
-(Select NUMERO,NOME, SELECAO, COUNT(*) PARTIDAS_COM_EVENTO
+(SELECT NUMERO,NOME, SELECAO, COUNT(*) PARTIDAS_COM_EVENTO
 
-from
+FROM
 (
-Select * from PartidaComGolos
+SELECT * FROM PartidaComGolos
 UNION
-Select * from PartidaComSubstituicao
+SELECT * FROM PartidaComSubstituicao
 UNION
-Select * from PartidaComCartao)
+SELECT * FROM PartidaComCartao)
 
 GROUP BY NOME,SELECAO)
 
