@@ -10,7 +10,7 @@ Ordene por grupo, e nome da seleção.
 .headers ON
 .nullvalue NULL
 
-SELECT s.letra AS GRUPO, A.nome AS NOME, A.gm + B.gm AS GOLOS_MARCADOS, A.gs + B.gs AS GOLOS_SOFRIDOS, (A.gm + B.gm)-(A.gs + B.gs) AS SALDO
+SELECT s.letra AS GRUPO, A.nome AS SELECAO, A.gm + B.gm AS GOLOS_MARCADOS, A.gs + B.gs AS GOLOS_SOFRIDOS, (A.gm + B.gm)-(A.gs + B.gs) AS SALDO
 
 FROM
 

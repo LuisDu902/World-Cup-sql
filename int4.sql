@@ -9,7 +9,7 @@ Mostre o nome da seleção, o número total de cartões, o número de jogadores 
 .headers ON
 .nullvalue NULL
 
-SELECT A.nome_selecao AS NOME_SELECAO, NUM_CARTOES, NUM_JOGADORES, ROUND(NUM_CARTOES*1.0/NUM_JOGADORES, 3) AS MEDIA
+SELECT A.nome_selecao AS SELECAO, NUM_CARTOES, NUM_JOGADORES, ROUND(NUM_CARTOES*1.0/NUM_JOGADORES, 3) AS MEDIA
 FROM 
 
 (SELECT nome_selecao, MAX(total_subs)
