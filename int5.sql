@@ -48,7 +48,7 @@ HAVING max(data)
 ORDER BY PARTIDA;
 
 ---------------------------------------------------------
-SELECT B.data AS DATA, B.hora AS HORA, B.SELECAO AS SELECAO, A.TIPO AS TIPO, A.MINUTO AS MINUTO
+SELECT B.data AS DATA, B.hora AS HORA, B.SELECAO, A.TIPO, A.MINUTO
 FROM (SELECT * FROM PrimeiroEventoSegundaParte) AS A JOIN (SELECT * FROM UltimaPartida) AS B
 WHERE A.PARTIDA = B.PARTIDA AND A.SELECAO = B.SELECAO
 ORDER BY 1, 2, 5;

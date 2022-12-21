@@ -1,3 +1,10 @@
+/*
+Gatilho 3
+---------
+Quando uma seleção é eliminada na fase eliminatória, acrescentá-la à tabela dos 
+Perdedores.
+*/
+
 DROP TABLE IF EXISTS Perdedores;
 
 CREATE TABLE Perdedores (

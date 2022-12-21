@@ -1,3 +1,10 @@
+/*
+Gatilho 1
+---------
+Ao inserir um golo, a contagem pessoal do jogador deve ser atualizada, assim como o 
+resultado da partida e do desempate.
+*/
+
 CREATE TRIGGER gatilho1
 AFTER INSERT ON Golo
 FOR EACH ROW 
