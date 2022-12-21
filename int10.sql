@@ -1,7 +1,7 @@
 /*
 Interrogação 10
 ---------------
-Mostre o nº de jogos ganhos por cada seleção, ordenando pelo nome da seleção.
+Mostre o número de jogos ganhos por cada seleção, ordenando pelo nome da seleção.
 */
 
 .mode columns
