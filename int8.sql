@@ -1,3 +1,11 @@
+/*
+Interrogação 8
+--------------
+Houve algum jogador que esteve envolvido nalgum evento de todas as partidas que disputou? 
+Mostre o nome da seleção, para além do nome e do número do jogador. 
+Ordene pelo nome da seleção e número do jogador.
+*/
+
 .mode columns
 .headers ON
 .nullvalue NULL
@@ -76,7 +84,6 @@ NATURAL JOIN
 FROM Partida
 GROUP BY 1);
 
-
 ---------------------------------------------------------
 SELECT SELECAO, NUMERO, NOME
 
@@ -85,20 +92,15 @@ FROM
 (SELECT NUMERO,NOME, SELECAO, COUNT(*) PARTIDAS_COM_EVENTO
 
 FROM
-(
-SELECT * FROM PartidaComGolos
-UNION
-SELECT * FROM PartidaComSubstituicao
-UNION
-SELECT * FROM PartidaComCartao)
+    (SELECT * FROM PartidaComGolos
+     UNION
+     SELECT * FROM PartidaComSubstituicao
+     UNION
+     SELECT * FROM PartidaComCartao)
 
 GROUP BY NOME,SELECAO)
 
-JOIN
-(SELECT * FROM NumeroPartidas) 
-
+JOIN (SELECT * FROM NumeroPartidas) 
 USING(SELECAO)
-
 WHERE PARTIDAS_COM_EVENTO = NR_PARTIDAS_TOTAL
-
 ORDER BY SELECAO, NUMERO;

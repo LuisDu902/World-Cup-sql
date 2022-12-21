@@ -12,8 +12,6 @@ SELECT AVG(soma_golos) AS MEDIA_GOLOS_SELECOES_ELIMINADAS
 FROM (SELECT SUM(contagem_pessoal) AS soma_golos 
       FROM (SELECT * 
             FROM Selecao 
-            WHERE nome_selecao NOT IN (SELECT nome_selecao_1 FROM Partida WHERE numero_jornada = 4) 
-                  AND 
-            nome_selecao NOT IN (SELECT nome_selecao_2 FROM Partida WHERE numero_jornada = 4)) AS Selecoes_elim
-            JOIN Jogador ON Selecoes_elim.nome_selecao = Jogador.nome_selecao
+            WHERE posicao_grupo > 2) AS Selecoes_elim
+      JOIN Jogador ON Selecoes_elim.nome_selecao = Jogador.nome_selecao
       GROUP BY Jogador.nome_selecao);

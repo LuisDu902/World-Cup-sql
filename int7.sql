@@ -2,7 +2,7 @@
 Interrogação 7
 --------------
 Obtenha o saldo de golos de cada seleção na fase de grupos.
-Mostre a letra do grupo, o nome da seleção, o número de golos sofridos, o número de golos marcados, e o saldo pedido.
+Mostre a letra do grupo, o nome da seleção, o número de golos marcados, o número de golos sofridos, e o saldo pedido.
 Ordene por grupo, e nome da seleção.
 */
 

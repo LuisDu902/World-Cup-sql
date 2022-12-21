@@ -27,7 +27,7 @@ CREATE TABLE Selecao(
 
 CREATE TABLE Jogador(
     numero_jogador NUMERIC,
-    nome_selecao VARCHAR(50),
+    nome_selecao VARCHAR(50) NOT NULL,
     nome_jogador VARCHAR(50) NOT NULL,
     contagem_pessoal NUMERIC NOT NULL CHECK (contagem_pessoal >= 0),
     FOREIGN KEY (nome_selecao) REFERENCES Selecao(nome_selecao) ON UPDATE CASCADE ON DELETE CASCADE,
@@ -115,7 +115,6 @@ CREATE TABLE Desempate (
     penalties_selecao1 NUMERIC NOT NULL CHECK (penalties_selecao1 >= 0),
     penalties_selecao2 NUMERIC NOT NULL CHECK (penalties_selecao2 >= 0),
     id_partida NUMERIC NOT NULL,
-    CHECK (penalties_selecao1 <> penalties_selecao2),
     CHECK (ABS(penalties_selecao1 - penalties_selecao2) <= 3),
     FOREIGN KEY (id_partida) REFERENCES Partida(id_partida) ON UPDATE CASCADE ON DELETE CASCADE,
     PRIMARY KEY (id_desempate)

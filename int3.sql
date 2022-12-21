@@ -1,7 +1,7 @@
 /*
 Interrogação 3
 --------------
-Liste os jogadores com “r” na terceira ou na antepenúltima posição no nome, que marcaram golos, cuja seleção jogou em estádios ONde se disputaram no mínimo 9 partidAS.
+Liste os jogadores com “r” na terceira ou na antepenúltima posição no nome, que marcaram golos, cuja seleção jogou em estádios onde se disputaram no mínimo 9 partidas.
 Ordene alfabeticamente pelo nome da seleção e decrescentemente pelo número do jogador.
 */
 
