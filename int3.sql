@@ -23,7 +23,7 @@ HAVING COUNT(*) >= 9;
 ---------------------------------------------------------
 CREATE VIEW Jogadores AS
 
-SELECT nome_selecao AS SELECAO, numero_jogador AS NUM, nome_jogador AS NOME
+SELECT nome_selecao AS SELECAO, numero_jogador AS NUM_JOGADOR, nome_jogador AS NOME
 FROM Jogador
 WHERE (nome_jogador LIKE '__r%' OR nome_jogador LIKE '%r__')
 AND contagem_pessoal <> 0;
